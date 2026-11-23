@@ -553,7 +553,7 @@ function makeCover(p, W, H, variant = 0) {
   c.restore();
 
   // title block
-  const tb = Math.min(W, H) * .022, bw = tb * 15, bh = tb * 4.2, bx = W - bw - tb * 1.4, by = H - bh - tb * 1.4;
+  const tb = Math.min(W, H) * .022, bw = tb * 15, bh = tb * 4.2, bx = Math.min(W - bw - tb * 1.4, W / 2 + H * .38 - bw), by = H - bh - tb * 1.4;
   c.setLineDash([]); c.strokeStyle = INK; c.lineWidth = 1.4; c.strokeRect(bx, by, bw, bh);
   c.beginPath(); c.moveTo(bx, by + bh * .55); c.lineTo(bx + bw, by + bh * .55); c.moveTo(bx + bw * .62, by + bh * .55); c.lineTo(bx + bw * .62, by + bh); c.stroke();
   c.fillStyle = INK; c.font = `400 ${tb * 1.1}px "Space Mono", monospace`;
