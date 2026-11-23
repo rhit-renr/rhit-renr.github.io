@@ -70,7 +70,7 @@ header.site.hide { transform: translateY(-100%); }
 header.site .g { min-height: 58px; align-items: center; border-bottom: 1px solid transparent; transition: border-color .4s; }
 header.site.scrolled .g { border-color: var(--rule); }
 .h1c { grid-column: 1 / span 3; }
-.h2c { grid-column: 5 / span 3; display: flex; gap: 22px; }
+.h2c { grid-column: 5 / span 4; display: flex; gap: clamp(20px, 2.4vw, 36px); font-size: clamp(16px, 1.45vw, 20px); letter-spacing: 0; }
 .h2c a { position: relative; }
 .h2c a.on { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
 .h3c { grid-column: 9 / span 2; color: var(--muted); }
@@ -347,7 +347,7 @@ html.has-cur, html.has-cur a, html.has-cur button { cursor: none; }
       </div>
       <div class="g about-grid">
         <div class="portrait rv">
-          <div class="ph"><canvas id="portraitCv" aria-hidden="true"></canvas><span>your photo here</span></div>
+          <div class="ph"></div>
           <span class="script" aria-hidden="true">hi, I'm Iris</span>
         </div>
         <div class="about-text rv">
@@ -567,8 +567,13 @@ function makeCover(p, W, H, variant = 0) {
   return cv.toDataURL("image/jpeg", .88);
 }
 const coverCache = {};
+// Set to true to show the generated drawings again. With false, every image box stays blank
+// unless the project has its own `image`.
+const SHOW_DRAWINGS = false;
+const BLANK = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
 function cover(p, variant = 0) {
-  if (p.image && variant === 0) return p.image;
+  if (p.image) return p.image;
+  if (!SHOW_DRAWINGS) return BLANK;
   const k = p.id + ":" + variant;
   if (!coverCache[k]) coverCache[k] = variant === 1 ? makeCover(p, 1100, 1375, 1) : variant === 2 ? makeCover(p, 1700, 1000, 2) : makeCover(p, 1600, 1280, 0);
   return coverCache[k];
@@ -652,7 +657,6 @@ setView((() => { try { return localStorage.getItem("pf-view") === "index" ? "ind
   [...cardsEl.children].forEach((el, i) => setTimeout(() => {
     const img = el.querySelector("img"); img.onload = () => img.classList.add("ok"); img.src = cover(PROJECTS[i]);
   }, i * 40));
-  paintPortrait();
   if (!reduce) setTimeout(() => drawIn($("#heroArrow")), 500);
 });
 
@@ -722,7 +726,9 @@ if (fine && !reduce) {
   })();
   cardsEl.addEventListener("mouseover", e => {
     const c = e.target.closest(".card"); if (!c || !cardsEl.classList.contains("index")) return;
-    fltImg.src = cover(PROJECTS.find(p => p.id === c.dataset.id), 1); flt.classList.add("on");
+    const fp = PROJECTS.find(p => p.id === c.dataset.id);
+    if (!fp.image && !SHOW_DRAWINGS) return;
+    fltImg.src = cover(fp, 1); flt.classList.add("on");
   });
   cardsEl.addEventListener("mouseleave", () => flt.classList.remove("on"));
 }
