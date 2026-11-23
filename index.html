@@ -1,0 +1,816 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Ran (Iris) Ren, mechanical engineering student at Rose-Hulman. Mechanisms, robotics, and mechatronic prototypes.">
+<meta property="og:title" content="Ran Ren Portfolio">
+<meta property="og:description" content="Mechanisms, robotics, and mechatronic prototypes by Ran (Iris) Ren.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23ffffff'/%3E%3Ctext x='32' y='48' font-family='Arial Narrow,Arial' font-size='44' text-anchor='middle' fill='%232433E6'%3Er%3C/text%3E%3C/svg%3E">
+<style>
+:root { color-scheme: light; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<title>Ran Ren Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400&family=Space+Mono:wght@400;700&family=Inter:wght@400;500&family=Mrs+Saint+Delafield&display=swap">
+<style>
+/* Layout: editorial "slide" pages on white; oversized lowercase condensed titles, B&W imagery, one cobalt accent drawn by hand */
+:root {
+  --bg: #FFFFFF;
+  --fg: #0B0B0B;
+  --muted: #8C8C8C;
+  --rule: #E4E4E4;
+  --card: #EDEDED;
+  --blue: #2433E6;
+  --on-blue: #FFFFFF;
+  --display: "Oswald", "Arial Narrow", Impact, sans-serif;
+  --mono: "Space Mono", ui-monospace, Menlo, monospace;
+  --ui: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --script: "Mrs Saint Delafield", "Brush Script MT", cursive;
+  --ease: cubic-bezier(.16,1,.3,1);
+  --gap: clamp(12px, 1.6vw, 24px);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #0C0C0D; --fg: #F2F2F0; --muted: #808080; --rule: #252527; --card: #1B1B1D; --blue: #7383FF; --on-blue: #0C0C0D; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0C0C0D; --fg: #F2F2F0; --muted: #808080; --rule: #252527; --card: #1B1B1D; --blue: #7383FF; --on-blue: #0C0C0D; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--mono); font-size: 13.5px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--bg); }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+:focus-visible { outline: 1px solid var(--blue); outline-offset: 4px; }
+::selection { background: var(--blue); color: var(--on-blue); }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.inner { max-width: 1560px; margin: 0 auto; padding-inline: clamp(0px, 2.2vw, 24px); }
+.g { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+.meta { font-family: var(--ui); font-size: 10.5px; line-height: 1.35; letter-spacing: .02em; color: var(--fg); }
+.meta b { font-weight: 500; text-transform: uppercase; letter-spacing: .08em; }
+.disp { font-family: var(--display); font-weight: 300; text-transform: lowercase; letter-spacing: -.02em; line-height: .86; margin: 0; }
+.blue { color: var(--blue); }
+.ul { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.script { font-family: var(--script); color: var(--blue); font-weight: 400; line-height: 1; }
+.num { font-family: var(--display); font-weight: 400; color: var(--fg); }
+.bw { filter: grayscale(1) contrast(1.08); transition: filter .9s var(--ease), transform 1.4s var(--ease); }
+
+/* hand-drawn strokes */
+.ink { fill: none; stroke: var(--blue); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.ink.k { stroke: var(--fg); stroke-width: 1.4; }
+.draw path { stroke-dasharray: var(--len, 1200); stroke-dashoffset: 0; }
+.draw.pre path { stroke-dashoffset: var(--len, 1200); }
+.draw.go path { transition: stroke-dashoffset 1.6s var(--ease) var(--d, 0s); }
+
+/* header: like the top strip of a slide */
+header.site { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; background: var(--bg); transition: transform .6s var(--ease); }
+header.site.hide { transform: translateY(-100%); }
+header.site .g { min-height: 58px; align-items: center; border-bottom: 1px solid transparent; transition: border-color .4s; }
+header.site.scrolled .g { border-color: var(--rule); }
+.h1c { grid-column: 1 / span 3; }
+.h2c { grid-column: 5 / span 3; display: flex; gap: 22px; }
+.h2c a { position: relative; }
+.h2c a.on { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+.h3c { grid-column: 9 / span 2; color: var(--muted); }
+.h4c { grid-column: 11 / -1; justify-self: end; font-variant-numeric: tabular-nums; }
+
+/* hero */
+.hero { padding-block: clamp(36px, 6vw, 88px) clamp(64px, 9vw, 140px); position: relative; }
+.hero-top { align-items: start; }
+.hero h1 { grid-column: 1 / -1; font-size: clamp(88px, 22vw, 380px); display: flex; align-items: flex-start; gap: .04em; position: relative; z-index: 2; }
+.hero h1 .wd { display: inline-block; animation: rise 1.3s var(--ease) both; }
+.hero h1 svg { width: .32em; height: .2em; margin-top: .26em; flex-shrink: 0; }
+@keyframes rise { from { transform: translateY(16%); } to { transform: none; } }
+.hero-img { grid-column: 1 / span 7; margin-top: calc(clamp(88px, 22vw, 380px) * -.32); position: relative; z-index: 1; aspect-ratio: 16 / 7; max-width: 100%; overflow: hidden; background: var(--card); }
+.hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero-img:hover img { filter: none; }
+.hero-side { grid-column: 9 / -1; align-self: end; display: flex; flex-direction: column; gap: 22px; position: relative; }
+.hero-side p { margin: 0; max-width: 38ch; }
+.hero-side .script { font-size: clamp(44px, 5vw, 76px); position: absolute; top: -1.3em; left: -.2em; transform: rotate(-8deg); white-space: nowrap; }
+.down { width: 18px; height: 30px; }
+
+/* section heading pattern */
+.sec { padding-block: clamp(80px, 10vw, 160px); border-top: 1px solid var(--rule); }
+.sec-head { align-items: end; margin-bottom: clamp(40px, 6vw, 88px); row-gap: 20px; }
+.sec-head h2 { grid-column: 1 / span 8; font-size: clamp(64px, 11vw, 190px); position: relative; justify-self: start; }
+.sec-head h2 svg { position: absolute; left: -2%; width: 104%; height: .32em; bottom: -.16em; pointer-events: none; }
+.sec-head .aside { grid-column: 9 / -1; display: flex; gap: 14px; align-items: flex-start; }
+.sec-head .aside .num { font-size: 40px; line-height: .9; }
+.sec-head .aside p { margin: 0; max-width: 30ch; }
+
+/* toolbar */
+.toolbar { align-items: baseline; padding-bottom: 20px; margin-bottom: clamp(32px, 4vw, 56px); border-bottom: 1px solid var(--fg); row-gap: 12px; }
+.filters { grid-column: 1 / span 9; display: flex; flex-wrap: wrap; gap: 6px 26px; }
+.filters button { color: var(--muted); transition: color .3s; }
+.filters button span { font-family: var(--display); font-size: 15px; margin-right: 6px; color: var(--fg); }
+.filters button:hover { color: var(--fg); }
+.filters button[aria-pressed="true"] { color: var(--blue); text-decoration: underline; text-underline-offset: 4px; }
+.views { grid-column: 10 / -1; justify-self: end; display: flex; gap: 18px; }
+.views button { color: var(--muted); }
+.views button[aria-pressed="true"] { color: var(--blue); text-decoration: underline; text-underline-offset: 4px; }
+
+/* cards */
+.cards { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: clamp(64px, 9vw, 140px); transition: opacity .45s var(--ease), transform .6s var(--ease); }
+.cards.fading { opacity: 0; transform: translateY(12px); }
+.card { display: block; position: relative; }
+.card .media { position: relative; overflow: hidden; background: var(--card); max-width: 100%; }
+.card .media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .8s, filter .9s var(--ease), transform 1.4s var(--ease); }
+.card .media img.ok { opacity: 1; }
+.card:hover .media img { filter: none; transform: scale(1.04); }
+.card .info { display: grid; grid-template-columns: auto 1fr auto; gap: 4px 14px; padding-top: 16px; align-items: start; }
+.card .info .num { font-size: clamp(28px, 2.6vw, 40px); line-height: .9; }
+.card .info h3 { font-family: var(--display); font-weight: 300; text-transform: lowercase; font-size: clamp(30px, 3vw, 48px); line-height: .9; letter-spacing: -.01em; margin: 0; transition: color .3s; }
+.card:hover .info h3 { color: var(--blue); }
+.card .info .tag { grid-column: 2; font-size: 12px; }
+.card .info .yr { grid-column: 3; grid-row: 1; font-size: 12px; color: var(--muted); }
+.card .info svg { grid-column: 3; grid-row: 2; justify-self: end; width: 14px; height: 24px; transition: transform .6s var(--ease); }
+.card:hover .info svg { transform: translateY(6px); }
+.card .note { position: absolute; z-index: 3; font-family: var(--script); color: var(--blue); font-size: clamp(36px, 3.6vw, 60px); line-height: 1; top: -.55em; right: 6%; transform: rotate(-6deg); pointer-events: none; }
+.card.pa { grid-column: 1 / span 7; } .card.pa .media { aspect-ratio: 4 / 3; }
+.card.pb { grid-column: 9 / span 4; margin-top: clamp(80px, 14vw, 240px); } .card.pb .media { aspect-ratio: 4 / 5; }
+.card.pc { grid-column: 2 / span 4; } .card.pc .media { aspect-ratio: 4 / 5; }
+.card.pd { grid-column: 7 / span 6; margin-top: clamp(56px, 9vw, 160px); } .card.pd .media { aspect-ratio: 4 / 3; }
+
+/* index view */
+.cards.index { display: block; }
+.cards.index .card { display: block; padding: clamp(14px, 1.6vw, 22px) 0; border-bottom: 1px solid var(--rule); margin: 0; transition: opacity .5s var(--ease); }
+.cards.index .media, .cards.index .note { display: none; }
+.cards.index .info { grid-template-columns: 56px minmax(0, 1fr) minmax(0, 220px) 60px; align-items: baseline; padding: 0; }
+.cards.index .info .num { font-size: 22px; }
+.cards.index .info h3 { font-size: clamp(40px, 6.4vw, 108px); transition: color .3s, transform .7s var(--ease); }
+.cards.index .info .tag { grid-column: 3; grid-row: 1; }
+.cards.index .info .yr { grid-column: 4; text-align: right; }
+.cards.index .info svg { display: none; }
+.cards.index:hover .card { opacity: .25; }
+.cards.index .card:hover { opacity: 1; }
+.cards.index .card:hover h3 { transform: translateX(12px); }
+.float { position: fixed; left: 0; top: 0; width: clamp(220px, 20vw, 320px); aspect-ratio: 4/5; pointer-events: none; z-index: 45; overflow: hidden; clip-path: inset(50% 0 50% 0); transition: clip-path .7s var(--ease); background: var(--card); }
+.float.on { clip-path: inset(0); }
+.float img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.empty { color: var(--muted); }
+
+/* about */
+.about-grid { row-gap: 40px; }
+.portrait { grid-column: 1 / span 4; position: relative; }
+.portrait .ph { aspect-ratio: 3 / 4; max-width: 100%; background: var(--card); position: relative; overflow: hidden; display: grid; place-items: center; }
+.portrait .ph canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.portrait .ph span { position: relative; color: var(--muted); font-size: 12px; }
+.portrait .script { position: absolute; font-size: clamp(48px, 5vw, 84px); bottom: -.4em; right: -.1em; transform: rotate(-10deg); white-space: nowrap; }
+main { overflow-x: clip; }
+.about-text { grid-column: 6 / span 6; }
+.about-text .lead { font-family: var(--display); font-weight: 300; font-size: clamp(26px, 2.8vw, 44px); line-height: 1.08; letter-spacing: -.01em; margin: 0 0 36px; text-wrap: balance; }
+.about-text .two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--gap); }
+.about-text .two p { margin: 0; }
+.hist { margin-top: clamp(48px, 6vw, 80px); }
+.hist h4 { margin: 0 0 6px; font-family: var(--ui); font-size: 10.5px; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; }
+.hist .row { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--rule); align-items: baseline; }
+.hist .row:first-of-type { border-top: 1px solid var(--fg); }
+.hist .row b { font-family: var(--ui); font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
+.hist .row span:last-child { font-variant-numeric: tabular-nums; color: var(--muted); }
+
+/* info / contact */
+.info-grid { row-gap: 40px; align-items: start; }
+.info-list { grid-column: 7 / -1; }
+.info-list .it { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--rule); }
+.info-list .it:first-child { border-top: 1px solid var(--fg); }
+.info-list .num { font-size: 22px; line-height: 1; }
+.info-list b { display: block; font-family: var(--ui); font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; margin-bottom: 4px; }
+.info-list .links { display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.mailbtn { font-family: var(--display); font-weight: 300; font-size: clamp(26px, 3vw, 44px); line-height: 1.1; letter-spacing: -.01em; text-align: left; word-break: break-word; transition: color .3s; }
+.mailbtn:hover { color: var(--blue); }
+.copied { color: var(--blue); opacity: 0; transition: opacity .3s; font-size: 12px; }
+.copied.on { opacity: 1; }
+.info-left { grid-column: 1 / span 5; position: relative; }
+.info-left p { margin: 0; max-width: 34ch; }
+.info-left .script { display: block; font-size: clamp(64px, 7vw, 120px); margin-top: 28px; transform: rotate(-6deg); transform-origin: left; }
+footer.foot { margin-top: clamp(80px, 10vw, 160px); padding-block: 18px 28px; border-top: 1px solid var(--rule); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+/* case study */
+.case { position: fixed; inset: 0; z-index: 90; background: var(--bg); overflow-y: auto; overscroll-behavior: contain; visibility: hidden; opacity: 0; transition: opacity .5s var(--ease), visibility 0s .5s; }
+body.open .case { visibility: visible; opacity: 1; transition: opacity .5s var(--ease); }
+body.open { overflow: hidden; }
+.case-bar { position: sticky; top: 0; z-index: 2; background: var(--bg); padding-top: env(safe-area-inset-top, 0px); }
+.case-bar .g { min-height: 58px; align-items: center; border-bottom: 1px solid var(--rule); }
+.case-bar .l { grid-column: 1 / span 6; }
+.case-bar .r { grid-column: 7 / -1; justify-self: end; display: flex; gap: 22px; }
+.case-bar .r button:hover { color: var(--blue); }
+.case .reveal { opacity: 0; transform: translateY(20px); transition: opacity .9s var(--ease), transform 1.1s var(--ease); }
+.case.in .reveal { opacity: 1; transform: none; }
+.case.in .d2 { transition-delay: .1s; } .case.in .d3 { transition-delay: .2s; }
+.case-title { padding-block: clamp(40px, 6vw, 96px) clamp(28px, 4vw, 56px); align-items: end; row-gap: 24px; }
+.case-title h2 { grid-column: 1 / span 8; font-size: clamp(72px, 14vw, 240px); position: relative; justify-self: start; }
+.case-title h2 svg { position: absolute; left: -2%; width: 104%; height: .3em; bottom: -.16em; }
+.case-title .side { grid-column: 9 / -1; display: flex; gap: 12px; }
+.case-title .side .num { font-size: 40px; line-height: .9; }
+.case-title .side p { margin: 0; max-width: 32ch; }
+.case-hero { aspect-ratio: 16 / 8; max-width: 100%; overflow: hidden; background: var(--card); }
+.case img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.case .bwbox:hover img { filter: none; }
+.facts { padding-block: 22px clamp(56px, 7vw, 112px); row-gap: 20px; }
+.facts > div { grid-column: span 3; border-top: 1px solid var(--fg); padding-top: 10px; }
+.facts > div b { display: block; font-family: var(--ui); font-size: 10.5px; text-transform: uppercase; letter-spacing: .08em; font-weight: 500; margin-bottom: 4px; }
+.chap { row-gap: 24px; padding-bottom: clamp(56px, 7vw, 112px); }
+.chap .h { grid-column: 1 / span 4; display: flex; gap: 12px; align-items: flex-start; }
+.chap .h .num { font-size: 40px; line-height: .9; }
+.chap .h h3 { margin: 0; font-family: var(--display); font-weight: 300; text-transform: lowercase; font-size: clamp(32px, 3.2vw, 52px); line-height: .9; }
+.chap .t { grid-column: 6 / span 6; }
+.chap .t p { margin: 0 0 16px; max-width: 62ch; font-size: 14px; }
+.chap .t .res { font-family: var(--display); font-weight: 300; font-size: clamp(26px, 2.8vw, 42px); line-height: 1.08; color: var(--blue); }
+.gal { padding-bottom: clamp(56px, 7vw, 112px); row-gap: var(--gap); }
+.gal .a { grid-column: 1 / span 5; aspect-ratio: 4 / 5; overflow: hidden; background: var(--card); }
+.gal .b { grid-column: 6 / -1; overflow: hidden; background: var(--card); }
+.next { display: block; border-top: 1px solid var(--fg); padding-block: 20px clamp(64px, 8vw, 120px); }
+.next .g { align-items: end; row-gap: 16px; }
+.next .lab { grid-column: 1 / -1; display: flex; justify-content: space-between; }
+.next .nt { grid-column: 1 / span 8; font-size: clamp(64px, 11vw, 190px); transition: color .3s, transform .8s var(--ease); }
+.next:hover .nt { color: var(--blue); transform: translateX(14px); }
+.next .ni { grid-column: 10 / -1; aspect-ratio: 4/5; overflow: hidden; background: var(--card); }
+.next:hover .ni img { filter: none; }
+.fly { position: fixed; z-index: 95; overflow: hidden; pointer-events: none; background: var(--card); }
+.fly img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.08); }
+
+/* cursor */
+.cur { position: fixed; left: 0; top: 0; z-index: 100; pointer-events: none; display: none; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; background: var(--blue); place-items: center; transition: width .5s var(--ease), height .5s var(--ease), margin .5s var(--ease), opacity .3s; }
+html.has-cur .cur { display: grid; }
+.cur span { font-family: var(--script); font-size: 30px; color: var(--on-blue); opacity: 0; transition: opacity .25s; white-space: nowrap; line-height: 1; padding-top: 6px; }
+.cur.view { width: 96px; height: 96px; margin: -48px 0 0 -48px; }
+.cur.view span { opacity: 1; transition-delay: .1s; }
+.cur.link { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; }
+html.has-cur, html.has-cur a, html.has-cur button { cursor: none; }
+
+/* scroll reveal (only for elements starting below the fold) */
+.rv { transition: transform 1.2s var(--ease); }
+.rv.pre { transform: translateY(40px); }
+.media.rvm { transition: clip-path 1.4s var(--ease); }
+.media.rvm.pre { clip-path: inset(14% 0 0 0); }
+
+@media (max-width: 900px) {
+  .h3c { display: none; }
+  .h1c { grid-column: 1 / span 4; } .h2c { grid-column: 5 / span 6; } .h4c { grid-column: 11 / -1; }
+  .hero-img { grid-column: 1 / -1; }
+  .hero-side { grid-column: 1 / -1; margin-top: 64px; }
+  .sec-head h2, .sec-head .aside { grid-column: 1 / -1; }
+  .filters { grid-column: 1 / -1; } .views { grid-column: 1 / -1; justify-self: start; }
+  .card.pa, .card.pd { grid-column: 1 / -1; margin-top: 0; }
+  .card.pb, .card.pc { grid-column: span 6; margin-top: 0; }
+  .card.pb { grid-column: 7 / -1; }
+  .portrait { grid-column: 1 / span 6; } .about-text { grid-column: 1 / -1; }
+  .info-left, .info-list { grid-column: 1 / -1; }
+  .case-title h2, .case-title .side { grid-column: 1 / -1; }
+  .facts > div { grid-column: span 6; }
+  .chap .h, .chap .t { grid-column: 1 / -1; }
+  .gal .a, .gal .b { grid-column: 1 / -1; } .gal .b { aspect-ratio: 4/3; }
+  .next .nt { grid-column: 1 / span 8; } .next .ni { grid-column: 9 / -1; }
+}
+@media (max-width: 600px) {
+  .h4c { display: none; } .h1c { grid-column: 1 / span 5; } .h2c { grid-column: 6 / -1; justify-content: flex-end; gap: 14px; }
+  .card.pb, .card.pc { grid-column: 1 / -1; }
+  .card .media { aspect-ratio: 4 / 5 !important; }
+  .portrait { grid-column: 1 / span 10; }
+  .about-text .two { grid-template-columns: minmax(0, 1fr); }
+  .hist .row { grid-template-columns: minmax(0, 1fr) auto; }
+  .hist .row b { grid-column: 1 / -1; }
+  .cards.index .info { grid-template-columns: 36px minmax(0, 1fr) 44px; }
+  .cards.index .info .tag { display: none; }
+  .cards.index .info .yr { grid-column: 3; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"><span>view</span></div>
+<div class="float" id="float"><img alt=""></div>
+
+<header class="site wrap" id="hdr">
+  <div class="inner g meta">
+    <a class="h1c" href="#top"><b id="brand">Your Name</b><br>portfolio</a>
+    <nav class="h2c">
+      <a href="#work">work</a>
+      <a href="#about">about</a>
+      <a href="#info">info</a>
+    </nav>
+    <span class="h3c" id="clock">Shanghai</span>
+    <span class="h4c">page <span id="page">01</span> / 04</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero wrap" data-page="01">
+    <div class="inner">
+      <div class="g hero-top">
+        <h1 class="disp"><span class="wd">portfolio</span>
+          <svg class="draw pre" id="heroArrow" viewBox="0 0 140 40" aria-hidden="true"><path class="ink k" d="M4 22 C 40 21, 90 20, 132 20 M116 8 L133 20 L116 32"/></svg>
+        </h1>
+        <div class="hero-img" id="heroImg"><img class="bw" alt="" id="heroPic"></div>
+        <div class="hero-side">
+          <span class="script" aria-hidden="true">selected works</span>
+          <p>Mechanical engineering student at Rose-Hulman designing mechanisms, prototypes, and robotic systems. This is a record of <span class="ul">my projects, from SolidWorks model to working part.</span></p>
+          <p class="meta"><b>Based in</b><br><span id="cityLine">Terre Haute</span>, IN. Open to relocation.<br><b>Seeking</b><br>Summer 2027 mechanical design or prototyping internship</p>
+          <svg class="down" viewBox="0 0 18 30" aria-hidden="true"><path class="ink k" d="M9 2 V27 M2 20 L9 27 L16 20"/></svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="work" data-page="02">
+    <div class="inner">
+      <div class="g sec-head">
+        <h2 class="disp">selected work
+          <svg class="draw pre" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true"><path class="ink" d="M6 24 C 120 10, 300 6, 590 18 M40 34 C 200 24, 380 22, 520 28"/></svg>
+        </h2>
+        <div class="aside"><span class="num">1.</span><p>Mechanisms, robotics, mechatronics, and CAD. <span class="ul">Hover to see each drawing in colour.</span></p></div>
+      </div>
+      <div class="g toolbar">
+        <div class="filters" id="filters" role="group" aria-label="Filter projects"></div>
+        <div class="views" role="group" aria-label="Layout">
+          <button id="vGrid" aria-pressed="true">grid</button>
+          <button id="vIndex" aria-pressed="false">index</button>
+        </div>
+      </div>
+      <div class="cards" id="cards"></div>
+      <p class="empty" id="empty" hidden>Nothing in this category yet.</p>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="about" data-page="03">
+    <div class="inner">
+      <div class="g sec-head">
+        <h2 class="disp">about me
+          <svg class="draw pre" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true"><path class="ink" d="M8 20 C 150 30, 380 8, 592 16"/></svg>
+        </h2>
+        <div class="aside"><span class="num">2.</span><p>Who I am, how I work, and <span class="ul">where I've been.</span></p></div>
+      </div>
+      <div class="g about-grid">
+        <div class="portrait rv">
+          <div class="ph"><canvas id="portraitCv" aria-hidden="true"></canvas><span>your photo here</span></div>
+          <span class="script" aria-hidden="true">hi, I'm Iris</span>
+        </div>
+        <div class="about-text rv">
+          <p class="lead">I'm Ran (Iris), a mechanical engineering student who likes turning an idea into a SolidWorks model, then into a part I can hold and test.</p>
+          <div class="two">
+            <p>My work spans consumer products, motion systems, and robotics: parametric modelling, mechanism design, and fast prototyping on Prusa FDM printers.</p>
+            <p>I'm a Certified SOLIDWORKS Professional, I grade the engineering graphics course at Rose-Hulman, and I help new international students settle in each August.</p>
+          </div>
+          <div class="hist">
+            <h4>Experience</h4>
+            <div class="row"><b>Ventures</b><span>Project intern, Rose-Hulman Ventures</span><span>2026 — now</span></div>
+            <div class="row"><b>VisionX</b><span>System engineer intern, VisionX LLC</span><span>Jul — Aug 2026</span></div>
+            <div class="row"><b>Grader</b><span>EM104 Graphical Communication</span><span>2026 — now</span></div>
+            <div class="row"><b>Mentor</b><span>International transition mentor</span><span>2025, 2026</span></div>
+          </div>
+          <div class="hist">
+            <h4>Education</h4>
+            <div class="row"><b>B.S.</b><span>Mechanical Engineering, Rose-Hulman Institute of Technology</span><span>May 2028</span></div>
+            <div class="row"><b>Summer</b><span>Johns Hopkins Engineering Innovation Program</span><span>2023</span></div>
+          </div>
+          <div class="hist">
+            <h4>Toolkit</h4>
+            <div class="row"><b>Certified</b><span>CSWA, CSWP, SOLIDWORKS Surfacing Professional</span><span>SolidWorks</span></div>
+            <div class="row"><b>Software</b><span>SolidWorks, AutoCAD, Blender, MATLAB, Python</span><span>CAD</span></div>
+            <div class="row"><b>Making</b><span>Mechanism design, 3D printing, prototype assembly</span><span>Prusa FDM</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec wrap" id="info" data-page="04">
+    <div class="inner">
+      <div class="g sec-head">
+        <h2 class="disp">info
+          <svg class="draw pre" viewBox="0 0 300 60" preserveAspectRatio="none" aria-hidden="true"><path class="ink" d="M150 6 C 60 4, 6 18, 10 34 C 14 52, 120 58, 210 52 C 290 46, 300 22, 250 12 C 220 6, 180 6, 140 9"/></svg>
+        </h2>
+        <div class="aside"><span class="num">3.</span><p>Hiring for summer 2027? <span class="ul">I'd love to hear from you.</span></p></div>
+      </div>
+      <div class="g info-grid">
+        <div class="info-left rv">
+          <p>I'm looking for a Summer 2027 mechanical design or prototyping internship, and I'm open to relocating. Email is the best way to reach me.</p>
+          <span class="script" aria-hidden="true">let's talk</span>
+        </div>
+        <div class="info-list rv">
+          <div class="it"><span class="num">01</span><div><b>Email</b><button class="mailbtn" id="mailBtn" type="button" data-cursor="copy"><span id="mail">hello@yourname.com</span></button><br><span class="copied" id="copied" role="status">Copied to clipboard</span></div></div>
+          <div class="it"><span class="num">02</span><div><b>Looking for</b>Summer 2027 internship in mechanical design or prototyping</div></div>
+          <div class="it"><span class="num">03</span><div><b>Location</b><span id="clock2">Shanghai</span></div></div>
+        </div>
+      </div>
+      <footer class="foot meta"><span>© <span id="yr">2026</span> <span id="fname">Your Name</span></span><a href="#top">back to top ↑</a></footer>
+    </div>
+  </section>
+</main>
+
+<div class="case" id="case" role="dialog" aria-modal="true" aria-labelledby="cTitle" aria-hidden="true" data-lenis-prevent></div>
+
+<script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+/* ============ Edit your details and projects here ============ */
+const NAME = "Ran Ren";
+const EMAIL = "renr@rose-hulman.edu";
+const CITY = "Terre Haute", TZ = "America/Indiana/Indianapolis";
+// tone: [paper, grid, accent part colour] (black and white until hover)
+// shot: latch | cell | fish | horse | camera  (generated engineering-drawing covers)
+// image: optional path or URL to a real photo; it replaces the generated cover
+// note: optional handwritten word over the card
+const PROJECTS = [
+  { id: "push-push-latch", title: "Push-Push Latch", year: 2026, cat: "Prototyping", type: "Mechanism prototype", role: "Project intern, Rose-Hulman Ventures", tools: "SolidWorks, Prusa FDM",
+    tone: ["#E9EBEE", "#D3D8DF", "#2433E6"], shot: "latch", note: "in progress", dwg: "RR-01",
+    lede: "Functional push-push latch and robotic arm prototypes for client engineering projects.",
+    body: ["At Rose-Hulman Ventures I design mechanical components and assemblies in SolidWorks for client-driven projects. Parts are designed for 3D printing now, with injection molding in mind for later production.", "Client details are kept general here."],
+    process: ["I turned design concepts into manufacturable parts, including a push-push latch mechanism and a robotic arm.", "Each iteration was printed on Prusa FDM machines, post-processed, and assembled so the team could evaluate how it worked and refine the design."],
+    result: "Working latch and robotic arm prototypes that moved the client projects from concept to testable hardware." },
+  { id: "cloth-inspection-cell", title: "Inspection Cell", year: 2026, cat: "Robotics", type: "Automated workstation", role: "System engineer intern, VisionX", tools: "NVIDIA Isaac Sim",
+    tone: ["#E6E9EC", "#CDD3DA", "#2433E6"], shot: "cell", dwg: "RR-02",
+    lede: "An automated workstation that photographs finished clothes, finds defects, and sorts pass or fail.",
+    body: ["The workstation uses a robotic manipulator and fixed industrial cameras to inspect finished garments and sort them automatically."],
+    process: ["I defined the physical layout of the cell: camera placement, an overhead gantry-mounted manipulator so the arm never blocks the cameras, and a multi-position capture sequence that covers the front and back of each garment.", "I built the cell in NVIDIA Isaac Sim to check the robot's motion sequence and reach before any hardware was built, and planned a phased simulation schedule around shared GPU servers."],
+    result: "Motion and reach checked in simulation before the hardware build." },
+  { id: "fishing-game", title: "Fishing Game", year: 2026, cat: "Mechatronics", type: "Arduino mechatronic system", role: "Designer and builder", tools: "Arduino, VL53L0X, servos",
+    tone: ["#ECEAE6", "#D8D4CC", "#2433E6"], shot: "fish", note: "it works!", dwg: "RR-03",
+    lede: "An interactive automatic fishing game that senses, moves, and keeps score in real time.",
+    body: ["The game combines a VL53L0X time-of-flight sensor, two servo motors, and an LCD display, coordinating sensing, movement, and feedback in real time."],
+    process: ["I wrote the control logic for both servos and tuned the sensor's detection range so the game responds reliably every time. Reset handling, detection logic, and sound feedback were refined over several hardware and firmware versions.", "Along the way I tracked down pin conflicts and unstable motor power, and added a dedicated external 5V supply so the servos run steadily."],
+    result: "A reliable, repeatable game built over four months of hardware and firmware iterations." },
+  { id: "rocking-horse", title: "Rocking Horse", year: 2026, cat: "CAD", type: "Mechanical sculpture", role: "Designer", tools: "SolidWorks, Prusa FDM",
+    tone: ["#EDEBE7", "#D9D5CD", "#2433E6"], shot: "horse", dwg: "RR-04",
+    lede: "A motorised rocking horse sculpture driven by a crank-linkage mechanism.",
+    body: ["I designed and modelled the sculpture in SolidWorks, including custom parts, assemblies, and the moving components that keep the motion stable and repeatable."],
+    process: ["A crank-linkage converts the motor's rotation into a controlled rocking motion.", "I checked part interfaces, alignment, and assembly order, then 3D printed and assembled a working prototype to test fit and motion."],
+    result: "A printed, working prototype that rocks smoothly and repeatably." },
+  { id: "lego-tribute-camera", title: "Tribute Camera", year: 2025, cat: "CAD", type: "Consumer-product model", role: "Designer", tools: "SolidWorks",
+    tone: ["#EBECEE", "#D5D8DD", "#2433E6"], shot: "camera", dwg: "RR-05",
+    lede: "A detailed LEGO tribute camera, customised for Rose-Hulman's 150th anniversary.",
+    body: ["A detailed SolidWorks model of a LEGO Tribute Camera, built part by part into a complete consumer-product-style assembly."],
+    process: ["Parametric features and dimension-driven constraints keep the geometry clean and easy to edit.", "Components are organised into a clear assembly structure with checked mates, so later revisions stay quick and predictable."],
+    result: "A clean, fully editable assembly turned into a 150th anniversary tribute." },
+];
+/* ============================================================== */
+
+const $ = s => document.querySelector(s);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fine = matchMedia("(pointer: fine)").matches;
+const pad = n => String(n).padStart(2, "0");
+
+/* ---------- generated engineering-drawing covers ---------- */
+function makeCover(p, W, H, variant = 0) {
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H; const c = cv.getContext("2d");
+  const [paper, grid, acc] = p.tone, INK = "#161616";
+  c.fillStyle = paper; c.fillRect(0, 0, W, H);
+  const step = Math.round(Math.min(W, H) / 24);
+  c.strokeStyle = grid; c.lineWidth = 1;
+  for (let x = 0; x < W; x += step) { c.beginPath(); c.moveTo(x + .5, 0); c.lineTo(x + .5, H); c.stroke(); }
+  for (let y = 0; y < H; y += step) { c.beginPath(); c.moveTo(0, y + .5); c.lineTo(W, y + .5); c.stroke(); }
+
+  c.save();
+  const s = Math.min(W / 1000, H / 800) * (variant === 1 ? 1.75 : variant === 2 ? .85 : 1);
+  c.translate(W / 2, H / 2);
+  if (variant === 1) c.rotate(-.04);
+  c.scale(s, s);
+  if (variant === 1) c.translate(-40, -20);
+  c.translate(-500, -400);
+  c.lineJoin = "round"; c.lineCap = "round";
+  const L = (w = 2.2, col = INK) => { c.lineWidth = w; c.strokeStyle = col; c.setLineDash([]); };
+  const D = () => { c.lineWidth = 1.4; c.strokeStyle = INK; c.setLineDash([10, 8]); };
+  const box = (x, y, w, h, r = 0) => { c.beginPath(); if (r && c.roundRect) c.roundRect(x, y, w, h, r); else c.rect(x, y, w, h); };
+  const fillAcc = a => { c.globalAlpha = a; c.fillStyle = acc; c.fill(); c.globalAlpha = 1; };
+  const line = (pts) => { c.beginPath(); pts.forEach(([x, y], i) => i ? c.lineTo(x, y) : c.moveTo(x, y)); c.stroke(); };
+  const circ = (x, y, r) => { c.beginPath(); c.arc(x, y, r, 0, Math.PI * 2); };
+  const txt = (t, x, y, size = 15, al = "left") => { c.setLineDash([]); c.fillStyle = INK; c.font = `400 ${size}px "Space Mono", monospace`; c.textAlign = al; c.fillText(t, x, y); c.textAlign = "left"; };
+  function dim(x1, y1, x2, y2, label, off = 0) {
+    L(1.2); const hz = Math.abs(y1 - y2) < 1;
+    if (hz) { line([[x1, y1 - 12], [x1, y1 + 12]]); line([[x2, y2 - 12], [x2, y2 + 12]]); line([[x1, y1], [x2, y2]]); txt(label, (x1 + x2) / 2, y1 - 10, 15, "center"); }
+    else { line([[x1 - 12, y1], [x1 + 12, y1]]); line([[x2 - 12, y2], [x2 + 12, y2]]); line([[x1, y1], [x2, y2]]); c.save(); c.translate(x1 - 12, (y1 + y2) / 2); c.rotate(-Math.PI / 2); txt(label, 0, 0, 15, "center"); c.restore(); }
+  }
+  function zig(x, y1, y2, w = 18, n = 9) { const h = (y2 - y1) / n; c.beginPath(); c.moveTo(x, y1); for (let i = 0; i < n; i++) c.lineTo(x + (i % 2 ? -w : w), y1 + h * (i + .5)); c.lineTo(x, y2); c.stroke(); }
+
+  switch (p.shot) {
+    case "latch": {
+      L(2.6); box(300, 200, 400, 360, 22); c.stroke();
+      L(1.4); box(320, 220, 360, 320, 14); c.stroke();
+      c.beginPath(); c.moveTo(500, 300); c.bezierCurveTo(420, 210, 340, 320, 500, 470); c.bezierCurveTo(660, 320, 580, 210, 500, 300); fillAcc(.3); L(2.4); c.stroke();
+      D(); c.beginPath(); c.moveTo(500, 470); c.bezierCurveTo(390, 360, 420, 250, 500, 300); c.stroke();
+      circ(500, 470, 11); c.fillStyle = INK; c.fill();
+      L(2.4); box(472, 480, 56, 200); c.stroke(); box(436, 676, 128, 36, 8); c.stroke(); fillAcc(.15);
+      L(1.8); zig(370, 260, 520); zig(630, 260, 520);
+      dim(300, 160, 700, 160, "42.0"); dim(250, 200, 250, 560, "36.0");
+      D(); line([[500, 130], [500, 740]]);
+      break;
+    }
+    case "cell": {
+      L(2); line([[130, 650], [870, 650]]);
+      L(2.6); box(220, 170, 18, 480); c.stroke(); box(762, 170, 18, 480); c.stroke(); box(220, 150, 560, 26); c.stroke();
+      box(468, 176, 64, 34, 4); c.stroke(); fillAcc(.2);
+      L(4); line([[500, 210], [570, 320], [528, 425]]); L(2.4); circ(570, 320, 12); c.stroke(); circ(500, 210, 10); c.stroke();
+      line([[510, 425], [546, 425]]); line([[512, 425], [506, 452]]); line([[544, 425], [550, 452]]);
+      L(2.4); box(330, 530, 340, 18); c.stroke(); line([[350, 548], [350, 650]]); line([[650, 548], [650, 650]]);
+      c.beginPath(); c.moveTo(450, 470); c.lineTo(480, 460); c.lineTo(520, 460); c.lineTo(550, 470); c.lineTo(570, 492); c.lineTo(552, 502); c.lineTo(545, 494); c.lineTo(545, 530); c.lineTo(455, 530); c.lineTo(455, 494); c.lineTo(448, 502); c.lineTo(430, 492); c.closePath(); fillAcc(.35); L(2); c.stroke();
+      L(2.4); box(140, 320, 56, 36, 4); c.stroke(); box(804, 320, 56, 36, 4); c.stroke();
+      c.strokeStyle = acc; c.lineWidth = 1.8; c.setLineDash([10, 8]); line([[196, 330], [440, 470]]); line([[196, 350], [440, 530]]); line([[804, 330], [560, 470]]); line([[804, 350], [560, 530]]);
+      txt("CAM A", 140, 305); txt("CAM B", 804, 305); dim(220, 110, 780, 110, "GANTRY 2400");
+      break;
+    }
+    case "fish": {
+      L(2.6); box(240, 430, 520, 210, 10); c.stroke();
+      c.beginPath(); c.ellipse(500, 430, 240, 70, 0, 0, Math.PI * 2); fillAcc(.22); L(2.4); c.stroke();
+      [[420, 425, 1], [540, 445, -1], [600, 410, 1]].forEach(([x, y, d]) => { c.beginPath(); c.ellipse(x, y, 26, 11, 0, 0, Math.PI * 2); c.fillStyle = INK; c.fill(); c.beginPath(); c.moveTo(x - 24 * d, y); c.lineTo(x - 44 * d, y - 12); c.lineTo(x - 44 * d, y + 12); c.closePath(); c.fill(); });
+      L(2.6); box(700, 170, 26, 260); c.stroke(); box(690, 160, 46, 30, 4); c.stroke(); fillAcc(.25);
+      L(3); line([[713, 175], [520, 200]]); D(); line([[520, 200], [520, 392]]); L(2.2); c.beginPath(); c.arc(510, 392, 10, 0, Math.PI); c.stroke();
+      L(2.2); box(282, 360, 54, 30, 4); c.stroke(); txt("ToF", 284, 350);
+      box(300, 520, 170, 70, 4); c.stroke(); txt("SCORE 07", 316, 562, 18);
+      circ(640, 560, 22); c.stroke(); txt("5V", 627, 610);
+      dim(240, 690, 760, 690, "300.0");
+      break;
+    }
+    case "horse": {
+      L(2.6); c.beginPath(); c.moveTo(300, 600); c.quadraticCurveTo(500, 680, 720, 600); c.stroke();
+      c.beginPath(); c.moveTo(310, 620); c.quadraticCurveTo(500, 700, 710, 620); c.stroke();
+      box(390, 410, 240, 92, 6); c.stroke();
+      c.beginPath(); c.moveTo(600, 410); c.lineTo(650, 320); c.lineTo(712, 330); c.lineTo(704, 372); c.lineTo(660, 380); c.lineTo(632, 410); c.closePath(); c.stroke(); fillAcc(.15);
+      line([[650, 320], [640, 296]]); line([[668, 323], [664, 298]]);
+      line([[410, 502], [396, 612]]); line([[450, 502], [446, 618]]); line([[580, 502], [588, 620]]); line([[612, 502], [626, 614]]);
+      c.beginPath(); c.moveTo(390, 425); c.quadraticCurveTo(340, 440, 350, 500); c.stroke();
+      L(2.6); circ(220, 470, 56); c.stroke(); fillAcc(.25); circ(220, 470, 7); c.fillStyle = INK; c.fill();
+      circ(258, 428, 9); c.fill(); L(3.2); line([[258, 428], [392, 470]]);
+      L(2.4); box(170, 540, 100, 70, 4); c.stroke(); line([[220, 526], [220, 540]]); txt("MOTOR", 182, 584);
+      D(); c.beginPath(); c.arc(220, 470, 80, -1.2, .4); c.stroke();
+      dim(300, 690, 720, 690, "260.0");
+      break;
+    }
+    case "camera": {
+      L(2.6); box(310, 330, 380, 250, 10); c.stroke();
+      for (let i = 0; i < 6; i++) { box(330 + i * 60, 312, 40, 18, 3); c.stroke(); }
+      box(600, 262, 76, 68, 4); c.stroke(); box(340, 272, 96, 58, 4); c.stroke(); fillAcc(.2);
+      circ(500, 458, 96); c.stroke(); circ(500, 458, 64); fillAcc(.3); L(2.4); c.stroke(); circ(500, 458, 30); c.stroke();
+      c.beginPath(); c.arc(500, 458, 46, -2.4, -1.4); c.stroke();
+      txt("RH 150", 330, 560, 16); box(612, 540, 54, 22, 3); c.stroke();
+      dim(310, 640, 690, 640, "64.0"); dim(262, 330, 262, 580, "40.0");
+      break;
+    }
+  }
+  c.restore();
+
+  // title block
+  const tb = Math.min(W, H) * .022, bw = tb * 15, bh = tb * 4.2, bx = W - bw - tb * 1.4, by = H - bh - tb * 1.4;
+  c.setLineDash([]); c.strokeStyle = INK; c.lineWidth = 1.4; c.strokeRect(bx, by, bw, bh);
+  c.beginPath(); c.moveTo(bx, by + bh * .55); c.lineTo(bx + bw, by + bh * .55); c.moveTo(bx + bw * .62, by + bh * .55); c.lineTo(bx + bw * .62, by + bh); c.stroke();
+  c.fillStyle = INK; c.font = `400 ${tb * 1.1}px "Space Mono", monospace`;
+  c.fillText(p.title.toUpperCase(), bx + tb * .6, by + bh * .38);
+  c.font = `400 ${tb * .8}px "Space Mono", monospace`;
+  c.fillText(`DWG ${p.dwg || "RR"}`, bx + tb * .6, by + bh * .84); c.fillText(String(p.year), bx + bw * .62 + tb * .6, by + bh * .84);
+
+  const img = c.getImageData(0, 0, W, H), d = img.data;
+  for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - .5) * 12; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  c.putImageData(img, 0, 0);
+  return cv.toDataURL("image/jpeg", .88);
+}
+const coverCache = {};
+function cover(p, variant = 0) {
+  if (p.image && variant === 0) return p.image;
+  const k = p.id + ":" + variant;
+  if (!coverCache[k]) coverCache[k] = variant === 1 ? makeCover(p, 1100, 1375, 1) : variant === 2 ? makeCover(p, 1700, 1000, 2) : makeCover(p, 1600, 1280, 0);
+  return coverCache[k];
+}
+// soft grain field behind the portrait placeholder
+function paintPortrait() {
+  const cv = $("#portraitCv"), w = 600, h = 800; cv.width = w; cv.height = h; const c = cv.getContext("2d");
+  const g = c.createLinearGradient(0, 0, 0, h); g.addColorStop(0, "#D8D8D6"); g.addColorStop(1, "#A9A9A6"); c.fillStyle = g; c.fillRect(0, 0, w, h);
+  c.fillStyle = "#8F8F8C"; c.beginPath(); c.arc(w / 2, h * .38, w * .17, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.ellipse(w / 2, h * .95, w * .38, h * .3, 0, Math.PI, 0); c.fill();
+  const im = c.getImageData(0, 0, w, h), d = im.data;
+  for (let i = 0; i < d.length; i += 4) { const n = (Math.random() - .5) * 26; d[i] += n; d[i + 1] += n; d[i + 2] += n; }
+  c.putImageData(im, 0, 0);
+}
+
+/* ---------- static bits ---------- */
+document.querySelectorAll("#brand, #fname").forEach(el => el.textContent = NAME);
+$("#mail").textContent = EMAIL;
+$("#cityLine").textContent = CITY;
+$("#yr").textContent = new Date().getFullYear();
+function tick() { try { const t = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: TZ }).format(new Date()); $("#clock").textContent = `${CITY} ${t}`; $("#clock2").textContent = `${CITY}, local time ${t}`; } catch (e) {} }
+tick(); setInterval(tick, 15000);
+
+/* ---------- hand-drawn strokes ---------- */
+document.querySelectorAll("svg.draw").forEach(svg => svg.querySelectorAll("path").forEach((p, i) => {
+  const L = Math.ceil(p.getTotalLength ? p.getTotalLength() : 1200) + 4; p.style.setProperty("--len", L); p.style.setProperty("--d", (i * .25) + "s");
+}));
+function drawIn(svg) { svg.classList.add("go"); requestAnimationFrame(() => svg.classList.remove("pre")); }
+if (reduce) document.querySelectorAll("svg.draw").forEach(s => s.classList.remove("pre"));
+
+/* ---------- filters + cards ---------- */
+const cats = [...new Set(PROJECTS.map(p => p.cat))];
+const filtersEl = $("#filters"), cardsEl = $("#cards");
+let filter = "All";
+["All", ...cats].forEach((c, i) => {
+  const b = document.createElement("button"); b.type = "button"; b.dataset.cat = c;
+  b.setAttribute("aria-pressed", c === "All");
+  const n = c === "All" ? PROJECTS.length : PROJECTS.filter(p => p.cat === c).length;
+  b.innerHTML = `<span>${i + 1}.</span>${c.toLowerCase()} (${pad(n)})`;
+  b.addEventListener("click", () => setFilter(c));
+  filtersEl.appendChild(b);
+});
+const arrowDown = `<svg viewBox="0 0 14 24" aria-hidden="true"><path class="ink k" d="M7 2 V21 M2 16 L7 21 L12 16"/></svg>`;
+PROJECTS.forEach((p, i) => {
+  const a = document.createElement("a");
+  a.className = "card"; a.href = "#" + p.id; a.dataset.id = p.id; a.dataset.cat = p.cat; a.dataset.cursor = "view";
+  a.innerHTML = `${p.note ? `<span class="note" aria-hidden="true">${p.note}</span>` : ""}
+    <div class="media"><img class="bw" alt="${p.title} cover"></div>
+    <div class="info"><span class="num">${i + 1}.</span><h3>${p.title}</h3><span class="yr">${p.year}</span><span class="tag ul">${p.type.toLowerCase()}</span>${arrowDown}</div>`;
+  cardsEl.appendChild(a);
+});
+function layout() {
+  const pat = ["pa", "pb", "pc", "pd"]; let k = 0;
+  [...cardsEl.children].forEach(el => { el.classList.remove(...pat); if (!el.hidden) el.classList.add(pat[k++ % 4]); });
+}
+layout();
+function setFilter(c) {
+  if (c === filter) return;
+  filter = c;
+  filtersEl.querySelectorAll("button").forEach(b => b.setAttribute("aria-pressed", b.dataset.cat === c));
+  const apply = () => {
+    [...cardsEl.children].forEach(el => el.hidden = !(c === "All" || el.dataset.cat === c));
+    $("#empty").hidden = [...cardsEl.children].some(el => !el.hidden);
+    layout(); cardsEl.classList.remove("fading");
+  };
+  if (reduce) return apply();
+  cardsEl.classList.add("fading"); setTimeout(apply, 380);
+}
+function setView(v) {
+  cardsEl.classList.toggle("index", v === "index");
+  $("#vGrid").setAttribute("aria-pressed", v === "grid");
+  $("#vIndex").setAttribute("aria-pressed", v === "index");
+  try { localStorage.setItem("pf-view", v); } catch (e) {}
+}
+$("#vGrid").addEventListener("click", () => setView("grid"));
+$("#vIndex").addEventListener("click", () => setView("index"));
+setView((() => { try { return localStorage.getItem("pf-view") === "index" ? "index" : "grid"; } catch (e) { return "grid"; } })());
+
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(() => {
+  const hp = $("#heroPic"); hp.src = cover(PROJECTS[0], 2);
+  [...cardsEl.children].forEach((el, i) => setTimeout(() => {
+    const img = el.querySelector("img"); img.onload = () => img.classList.add("ok"); img.src = cover(PROJECTS[i]);
+  }, i * 40));
+  paintPortrait();
+  if (!reduce) setTimeout(() => drawIn($("#heroArrow")), 500);
+});
+
+/* ---------- smooth scroll ---------- */
+let lenis = null;
+if (!reduce && typeof Lenis === "function") {
+  lenis = new Lenis({ duration: 1.15, smoothWheel: true });
+  (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
+  document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener("click", e => {
+    const id = a.getAttribute("href"); if (PROJECTS.some(p => "#" + p.id === id)) return;
+    const t = id === "#top" ? 0 : document.querySelector(id); if (t === null) return;
+    e.preventDefault(); lenis.scrollTo(t, { offset: id === "#top" ? 0 : -58 });
+  }));
+}
+
+/* ---------- header: hide on scroll, active section, page number ---------- */
+const hdr = $("#hdr"); let lastY = 0;
+const navLinks = [...document.querySelectorAll(".h2c a")];
+const pages = [...document.querySelectorAll("[data-page]")];
+function onScroll() {
+  const y = scrollY;
+  hdr.classList.toggle("scrolled", y > 10);
+  hdr.classList.toggle("hide", y > 300 && y > lastY && !document.body.classList.contains("open"));
+  lastY = y;
+  let cur = pages[0];
+  pages.forEach(s => { if (s.getBoundingClientRect().top < innerHeight * .45) cur = s; });
+  $("#page").textContent = cur.dataset.page;
+  navLinks.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur.id));
+}
+addEventListener("scroll", onScroll, { passive: true }); onScroll();
+
+/* ---------- scroll reveals and stroke drawing ---------- */
+if (!reduce && "IntersectionObserver" in window) {
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (!en.isIntersecting) return;
+    const t = en.target;
+    if (t.matches("svg.draw")) drawIn(t); else t.classList.remove("pre");
+    io.unobserve(t);
+  }), { rootMargin: "0px 0px -10% 0px" });
+  const below = el => el.getBoundingClientRect().top > innerHeight;
+  document.querySelectorAll(".rv").forEach(el => { if (below(el)) { el.classList.add("pre"); io.observe(el); } });
+  document.querySelectorAll(".card .media").forEach(el => { el.classList.add("rvm"); if (below(el)) { el.classList.add("pre"); io.observe(el); } });
+  document.querySelectorAll(".sec svg.draw").forEach(el => io.observe(el));
+} else document.querySelectorAll("svg.draw").forEach(s => s.classList.remove("pre"));
+
+/* ---------- cursor + index float ---------- */
+const cur = $("#cur"), curTxt = cur.querySelector("span"), flt = $("#float"), fltImg = flt.querySelector("img");
+let mx = innerWidth / 2, my = innerHeight / 2, cx = mx, cy = my, fx = mx, fy = my;
+if (fine && !reduce) {
+  document.documentElement.classList.add("has-cur");
+  addEventListener("mousemove", e => {
+    mx = e.clientX; my = e.clientY;
+    const t = e.target.closest("[data-cursor], a, button");
+    const label = t && t.dataset.cursor;
+    const inIndex = cardsEl.classList.contains("index") && t && t.classList.contains("card");
+    cur.classList.toggle("view", !!label && !inIndex); cur.classList.toggle("link", !!t && (!label || inIndex));
+    if (label) curTxt.textContent = label;
+  });
+  document.addEventListener("mouseleave", () => cur.style.opacity = 0);
+  document.addEventListener("mouseenter", () => cur.style.opacity = 1);
+  (function loop() {
+    cx += (mx - cx) * .2; cy += (my - cy) * .2; fx += (mx - fx) * .09; fy += (my - fy) * .09;
+    cur.style.transform = `translate(${cx}px,${cy}px)`;
+    const fw = flt.offsetWidth, fh = flt.offsetHeight;
+    flt.style.transform = `translate(${Math.min(innerWidth - fw - 16, fx + 40)}px,${Math.max(16, Math.min(innerHeight - fh - 16, fy - fh / 2))}px)`;
+    requestAnimationFrame(loop);
+  })();
+  cardsEl.addEventListener("mouseover", e => {
+    const c = e.target.closest(".card"); if (!c || !cardsEl.classList.contains("index")) return;
+    fltImg.src = cover(PROJECTS.find(p => p.id === c.dataset.id), 1); flt.classList.add("on");
+  });
+  cardsEl.addEventListener("mouseleave", () => flt.classList.remove("on"));
+}
+
+/* ---------- copy email ---------- */
+$("#mailBtn").addEventListener("click", () => {
+  const ok = () => { const c = $("#copied"); c.classList.add("on"); setTimeout(() => c.classList.remove("on"), 2000); };
+  const sel = () => { const r = document.createRange(); r.selectNodeContents($("#mail")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+  try { navigator.clipboard.writeText(EMAIL).then(ok, sel); } catch (e) { sel(); }
+});
+
+/* ---------- case study ---------- */
+const caseEl = $("#case"); let lastFocus = null;
+const underline = `<svg class="draw pre" viewBox="0 0 600 40" preserveAspectRatio="none" aria-hidden="true"><path class="ink" d="M6 24 C 120 10, 300 6, 590 18"/></svg>`;
+function renderCase(p, i) {
+  const next = PROJECTS[(i + 1) % PROJECTS.length];
+  caseEl.innerHTML = `
+    <div class="case-bar wrap"><div class="inner g meta">
+      <span class="l"><b>${p.title}</b><br>project ${pad(i + 1)} / ${pad(PROJECTS.length)}</span>
+      <div class="r"><button id="cPrev">prev</button><button id="cNext">next</button><button id="cClose">close ✕</button></div>
+    </div></div>
+    <div class="wrap"><div class="inner">
+      <div class="g case-title"><h2 id="cTitle" class="disp reveal">${p.title}${underline}</h2>
+        <div class="side reveal d2"><span class="num">${i + 1}.</span><p>${p.lede}</p></div></div>
+      <div class="case-hero bwbox" id="cHero"><img class="bw" alt="${p.title}" src="${cover(p, 2)}"></div>
+      <div class="g facts reveal d2">
+        <div><b>Year</b>${p.year}</div><div><b>Role</b>${p.role}</div>
+        <div><b>Discipline</b>${p.type}</div><div><b>Tools</b>${p.tools}</div>
+      </div>
+      <div class="g chap reveal d3"><div class="h"><span class="num">1.</span><h3>overview</h3></div><div class="t">${p.body.map(t => `<p>${t}</p>`).join("")}</div></div>
+      <div class="g gal reveal d3">
+        <div class="a bwbox"><img class="bw" alt="" src="${cover(p, 1)}"></div>
+        <div class="b bwbox"><img class="bw" alt="" src="${cover(p, 0)}"></div>
+      </div>
+      <div class="g chap reveal d3"><div class="h"><span class="num">2.</span><h3>process</h3></div><div class="t">${(p.process || []).map(t => `<p>${t}</p>`).join("")}</div></div>
+      <div class="g chap reveal d3"><div class="h"><span class="num">3.</span><h3>outcome</h3></div><div class="t"><p class="res">${p.result}</p></div></div>
+    </div></div>
+    <a class="next wrap" href="#${next.id}" data-cursor="next"><div class="inner g">
+      <span class="lab meta"><b>Next project</b><span>${pad((i + 1) % PROJECTS.length + 1)}</span></span>
+      <span class="nt disp">${next.title}</span>
+      <span class="ni"><img class="bw" alt="" src="${cover(next, 1)}"></span>
+    </div></a>`;
+  const ul = caseEl.querySelector("svg.draw path"); ul.style.setProperty("--len", Math.ceil(ul.getTotalLength()) + 4);
+  $("#cClose").onclick = () => closeCase();
+  $("#cPrev").onclick = () => location.hash = PROJECTS[(i - 1 + PROJECTS.length) % PROJECTS.length].id;
+  $("#cNext").onclick = () => location.hash = next.id;
+}
+function openCase(id) {
+  const i = PROJECTS.findIndex(p => p.id === id); if (i < 0) return;
+  const p = PROJECTS[i], wasOpen = document.body.classList.contains("open");
+  if (!wasOpen) lastFocus = document.activeElement;
+  const srcImg = !wasOpen && !cardsEl.classList.contains("index") && document.querySelector(`.card[data-id="${id}"]:not([hidden]) .media img`);
+  const from = srcImg ? srcImg.getBoundingClientRect() : null;
+  renderCase(p, i);
+  caseEl.classList.remove("in"); caseEl.scrollTop = 0;
+  document.body.classList.add("open"); caseEl.setAttribute("aria-hidden", "false");
+  if (lenis) lenis.stop();
+  const hero = $("#cHero"), ul = caseEl.querySelector("svg.draw");
+  const finish = () => { caseEl.classList.add("in"); if (reduce) ul.classList.remove("pre"); else setTimeout(() => drawIn(ul), 450); };
+  if (from && !reduce && from.bottom > 0 && from.top < innerHeight) {
+    const to = hero.getBoundingClientRect();
+    hero.style.visibility = "hidden";
+    const fly = document.createElement("div"); fly.className = "fly";
+    fly.innerHTML = `<img alt="" src="${srcImg.src}">`;
+    document.body.appendChild(fly);
+    const r = q => ({ left: q.left + "px", top: q.top + "px", width: q.width + "px", height: q.height + "px" });
+    Object.assign(fly.style, r(from));
+    fly.animate([r(from), r(to)], { duration: 900, easing: "cubic-bezier(.76,0,.24,1)", fill: "forwards" }).onfinish = () => { hero.style.visibility = ""; fly.remove(); };
+    setTimeout(finish, 350);
+  } else requestAnimationFrame(() => requestAnimationFrame(finish));
+  setTimeout(() => { const b = $("#cClose"); b && b.focus({ preventScroll: true }); }, 60);
+}
+function closeCase(silent) {
+  document.body.classList.remove("open"); caseEl.setAttribute("aria-hidden", "true");
+  if (lenis) lenis.start();
+  if (!silent && PROJECTS.some(p => "#" + p.id === location.hash)) history.replaceState(null, "", location.pathname + location.search + "#work");
+  if (lastFocus) lastFocus.focus({ preventScroll: true });
+}
+function route() { const id = location.hash.slice(1); if (PROJECTS.some(p => p.id === id)) openCase(id); else if (document.body.classList.contains("open")) closeCase(true); }
+addEventListener("hashchange", route);
+addEventListener("keydown", e => {
+  if (!document.body.classList.contains("open")) return;
+  const i = PROJECTS.findIndex(p => "#" + p.id === location.hash);
+  if (e.key === "Escape") closeCase();
+  if (i > -1 && e.key === "ArrowRight") location.hash = PROJECTS[(i + 1) % PROJECTS.length].id;
+  if (i > -1 && e.key === "ArrowLeft") location.hash = PROJECTS[(i - 1 + PROJECTS.length) % PROJECTS.length].id;
+});
+route();
+</script>
+</body>
+</html>
